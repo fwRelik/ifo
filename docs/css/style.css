@@ -1,0 +1,26 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.preview-icon {
+    padding: 10px;
+    border: 2px solid #ced4da;
+    border-radius: 5px;
+    min-height: 250px;
+}
+
+.preview-icon>svg {
+    width: 200px;
+    fill: #505050;
+}
+
+label>span {
+    color: #f00;
+}
+
+#svg-copy-area {
+    opacity: 0;
+    height: 1px;
+    padding: 0px;
+    border: 0px;
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Awesome Get SVG Icons</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="row mt-5">
+            <div class="offset-1 col-6">
+                <form id="tag-form">
+                    <h2>Search by Tag</h2>
+                    <div class="mt-3">
+                        <label for="icon-tag-name" class="form-label">
+                            Enter Icon Tag
+                            <span hidden> / Not Found</span>
+                        </label>
+                        <input type="text" value='<i class="fa-light fa-up"></i>' class="form-control"
+                            id="icon-tag-name">
+                    </div>
+                    <button class="preview_button btn btn-primary mt-4">Preview Icon</button>
+                </form>
+
+                <div class="example-value mt-3">
+                    Need to be introduced in format:
+                    <xmp> <i class="fa-light fa-up"></i> </xmp>
+                </div>
+
+                <form id="name-form" class="mt-5">
+                    <h2>Search by Name</h2>
+                    <div class="mt-4">
+                        <label for="icon-name" class="form-label">
+                            Enter Icon Name
+                            <span hidden> / Not Found</span>
+                        </label>
+                        <input type="text" id="icon-name" class="form-control" value="thumbs-up">
+                    </div>
+                    <div class="mt-4 w-25">
+                        <label for="icon-style" class="form-label">Select Icon Style</label>
+                        <select id="icon-style" class="form-select">
+                            <option>Solid</option>
+                            <option>Regular</option>
+                            <option>Light</option>
+                            <option>Thin</option>
+                            <option>Duotone</option>
+                        </select>
+                    </div>
+                    <div class="mt-4 w-25">
+                        <label for="icon-version" class="form-label">Select Icon Version</label>
+                        <select id="icon-version" class="form-select">
+                            <option>v6.1.1</option>
+                            <option>v5.15.4</option>
+                        </select>
+                    </div>
+                    <div class="form-check mt-4">
+                        <input type="checkbox" class="form-check-input" id="remove-checkbox" checked>
+                        <label class="form-check-label" for="remove-checkbox">
+                            Remove comment in SVG
+                        </label>
+                    </div>
+                    <button class="preview_button btn btn-primary mt-4">Preview Icon</button>
+                </form>
+
+            </div>
+
+            <div class="view offset-1 col-3">
+                The icon will appear in place for the preview if it was found by your request.
+                <textarea name="svg-copy-area" id="svg-copy-area"></textarea>
+                <div id="preview-icon" class="preview-icon mt-5  d-flex justify-content-center align-items-center">
+                    <span>There's nothing.</span>
+                </div>
+                <button class="copy_button btn btn-primary mt-4">Copy SVG</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./js/script.js"></script>
+
+</body>
+
+</html>
