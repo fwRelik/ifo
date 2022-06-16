@@ -1,9 +1,5 @@
-# Font Awesome 6 Pro
+# Font Awesome 6 Pro SVGs
 
-> Just plug in head
+I think the interface is pretty clear, so you'll figure it out.
 
-```HTML
-<link rel="stylesheet" href="./ifo/ifo.css">
-```
-
-### Icons can be found on the site [Font Awesome](https://fontawesome.com/icons)
+Icons can be found on the site [Font Awesome.](https://fontawesome.com/icons)
