@@ -1,93 +1,84 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const iconName = document.querySelector('#icon-name');
-    const iconStyle = document.querySelector('#icon-style');
-    const iconVersion = document.querySelector('#icon-version');
-    const nameButton = document.querySelector('#name-form .preview_button');
-
-    const iconTag = document.querySelector('#icon-tag-name');
-    const tagButton = document.querySelector('#tag-form .preview_button');
-
+    const tagForm = document.querySelector('#tag-form');
+    const nameForm = document.querySelector('#name-form');
     const preview = document.querySelector('#preview-icon');
     const copyBtn = document.querySelector('.copy_button');
 
-    async function Request(url) {
+    const request = async (url) => {
         let res = await fetch(url);
         if (!res.ok) throw new Error(`Could not fetch ${url}, status ${res.status}`);
         return res.text();
     }
 
-    function _urlContructor({ version, style, name }) {
-        return `https://site-assets.fontawesome.com/releases/${version}/svgs/${style}/${name}.svg`;
+    const _setUrl = ({ version, style, name }) => `https://site-assets.fontawesome.com/releases/${version}/svgs/${style}/${name}.svg`;
+
+    const _getVersion = () => document.querySelector('#icon-version').value;
+
+    const copySvg = () => document.execCommand('copy', false, preview.previousElementSibling.select());
+
+    const setIconPreview = (res) => {
+        const removeCheck = document.querySelector('#remove-checkbox').checked;
+        let item = res;
+        if (removeCheck) item = res.replace(/<!--.*?-->/gs, '');
+        preview.innerHTML = item;
+        preview.previousElementSibling.textContent = item;
     }
 
-    iconName.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            nameButton.click();
-        }
-    });
+    const error = (selector, status) => {
+        selector.querySelector(`.form-label>span`).hidden = !status;
+        if (status) setIconPreview('Not found or some problem occurred.');
+    }
 
-    nameButton.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        const version = iconVersion.value;
-        const name = iconName.value.toLowerCase();
-        const style = iconStyle.value.toLowerCase();
-
-        Request(_urlContructor({ version, style, name }))
-            .then((res) => {
-                clearError(iconName);
-                setIconPreview(res);
-            })
-            .catch(() => error(iconName));
-    });
-
-    tagButton.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        const version = iconVersion.value;
-        const options = iconTag.value.match(/".*?"/g).map(item => {
+    const TagForm = (data) => {
+        const value = data['icon-tag-name'];
+        const options = value.match(/".*?"/g).map(item => {
             return item.replace(/"|fa-/g, '');
         })[0].split(' ');
 
-        Request(_urlContructor({
-            version,
+        request(_setUrl({
+            version: _getVersion(),
             style: options[0],
             name: options[1]
         }))
-            .then((res) => {
-                clearError(iconTag);
+            .then(res => {
+                error(tagForm, false);
                 setIconPreview(res);
             })
-            .catch(() => error(iconTag));
+            .catch(() => error(tagForm, true));
+    }
 
+    const NameForm = (data) => {
+        request(_setUrl({
+            version: data['icon-version'],
+            style: data['icon-style'],
+            name: data['icon-name'].toLowerCase()
+        }))
+            .then(res => {
+                error(nameForm, false);
+                setIconPreview(res);
+            })
+            .catch(() => error(nameForm, true))
+    }
+
+    function logic(e) {
+        let data = {}
+        const formData = new FormData(e.target)
+        for (var pair of formData.entries()) data[pair[0]] = pair[1];
+        if (e.target.id === 'tag-form') TagForm(data);
+        else NameForm(data);
+    }
+
+    [tagForm, nameForm].forEach(item => {
+        item.addEventListener('submit', (e) => {
+            e.preventDefault();
+            logic(e)
+        });
     });
 
     copyBtn.addEventListener('click', (e) => {
         e.preventDefault();
         copySvg();
         e.target.innerHTML = "Copied!";
-        setTimeout(() => {e.target.innerHTML = "Copy SVG"}, 600)
+        setTimeout(() => { e.target.innerHTML = "Copy SVG" }, 600)
     });
-
-    function error(target) {
-        target.previousElementSibling.children[0].hidden = false;
-    }
-
-    function clearError(target) {
-        target.previousElementSibling.children[0].hidden = true;
-    }
-
-    function setIconPreview(icon) {
-        const removeCheck = document.querySelector('#remove-checkbox').checked;
-        let item = icon;
-
-        if (removeCheck) item = icon.replace(/<!--.*?-->/gs, '');
-        preview.innerHTML = item;
-        preview.previousElementSibling.textContent = item;
-    }
-
-    function copySvg() {
-        preview.previousElementSibling.select();
-        document.execCommand('copy');
-    }
 });

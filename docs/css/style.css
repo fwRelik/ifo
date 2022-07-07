@@ -7,6 +7,7 @@
     border: 2px solid #ced4da;
     border-radius: 5px;
     min-height: 250px;
+    text-align: center;
 }
 
 .preview-icon>svg {
