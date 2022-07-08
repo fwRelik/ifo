@@ -31,9 +31,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const TagForm = (data) => {
         const value = data['icon-tag-name'];
-        const options = value.match(/".*?"/g).map(item => {
+        const detection = value.match(/".*?"/g);
+        const options = detection ? detection.map(item => {
             return item.replace(/"|fa-/g, '');
-        })[0].split(' ');
+        })[0].split(' ') : error(tagForm, true);
+
+        if (!options) return;
 
         request(_setUrl({
             version: _getVersion(),
