@@ -7,3 +7,5 @@ Icons can be found on the site [Font Awesome.](https://fontawesome.com/icons)
 ---
 
 ### Site Demo [Here!](https://fwrelik.github.io/ifo)
+
+`Power by FontAwesome <3`
